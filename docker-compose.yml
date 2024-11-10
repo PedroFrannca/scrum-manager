@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mongo_prod:
+    image: mongo:latest
+    container_name: mongo_prod
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: "prod_database"
+    volumes:
+      - mongo_prod_data:/data/db
+
+  mongo_test:
+    image: mongo:latest
+    container_name: mongo_test
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_DATABASE: "test_database"
+    volumes:
+      - mongo_test_data:/data/db
+
+  node_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node_app
+    ports:
+      - "${PORT}:3000" # Usando a variável PORT do .env
+    environment:
+      MONGODB_URI: "${MONGODB_URI}"
+      MONGODB_URI_TEST: "${MONGODB_URI_TEST}"
+      NODE_ENV: "${NODE_ENV}"
+    depends_on:
+      - mongo_prod
+      - mongo_test
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  mongo_prod_data:
+  mongo_test_data:

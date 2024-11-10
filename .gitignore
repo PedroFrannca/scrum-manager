@@ -1,0 +1,21 @@
+# Ignorar node_modules (bibliotecas Node.js)
+node_modules/
+
+# Ignorar variáveis de ambiente e dados sensíveis
+#.env
+
+# Ignorar logs de servidor
+logs/
+*.log
+
+# Ignorar arquivos de compilação e cache
+dist/
+build/
+tmp/
+.cache/
+
+# Ignorar uploads temporários (caso existam)
+uploads/
+
+# Ignorar banco de dados (caso você armazene algum arquivo de dados localmente)
+*.db
