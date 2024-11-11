@@ -12,40 +12,12 @@ const taskSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['backlog', 'in progress', 'done'],
         default: 'backlog',
     },
-    priority: {
-        type: String,
-        enum: ['low', 'medium', 'high'],
-        default: 'medium',
-    },
-    assignedTo: {
+    responsibles: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    },
-    sprint: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Sprint',
-    },
-    project: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Project',
-        required: false,
-    },
-    dueDate: {
-        type: Date,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    }
-}, {
-    timestamps: true // Automatically creates 'createdAt' and 'updatedAt'
+        ref: 'User',  // Refere-se ao modelo de task
+      }],
 });
 
 // Middleware para atualizar o campo updatedAt
