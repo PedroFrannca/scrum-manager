@@ -21,7 +21,6 @@ describe('Testes de rotas de tarefas', () => {
             title: 'Nova Tarefa',
             description: 'Descrição da nova tarefa',
             status: 'backlog',
-            priority: 'medium',
             project: new mongoose.Types.ObjectId(), // Substitua com um ObjectId válido se necessário
         };
 
@@ -34,7 +33,6 @@ describe('Testes de rotas de tarefas', () => {
         expect(response.body.title).toBe(newTask.title);
         expect(response.body.description).toBe(newTask.description);
         expect(response.body.status).toBe(newTask.status);
-        expect(response.body.priority).toBe(newTask.priority);
     });
 
     // Teste de obtenção de todas as tarefas

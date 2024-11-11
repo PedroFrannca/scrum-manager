@@ -59,3 +59,50 @@ exports.deleteTask = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+// Função para adicionar um usuário aos responsibles de uma task
+exports.addResponsible = async (req, res) => {
+    const { taskId } = req.params;
+    const { userId } = req.body;
+  
+    try {
+      const task = await Task.findById(taskId);
+  
+      if (!task) {
+        return res.status(404).json({ message: 'Task não encontrada' });
+      }
+  
+      // Verifica se o usuário já é responsável
+      if (!task.responsibles.includes(userId)) {
+        task.responsibles.push(userId);
+        await task.save();
+        return res.status(200).json(task);
+      } else {
+        return res.status(400).json({ message: 'Usuário já é responsável por esta tarefa' });
+      }
+    } catch (error) {
+      res.status(500).json({ message: `Erro ao adicionar responsável: ${error.message}` });
+    }
+  };
+  
+  // Função para remover um usuário dos responsibles de uma task
+  exports.removeResponsible = async (req, res) => {
+    const { taskId } = req.params;
+    const { userId } = req.body;
+  
+    try {
+      const task = await Task.findById(taskId);
+  
+      if (!task) {
+        return res.status(404).json({ message: 'Task não encontrada' });
+      }
+  
+      // Remove o usuário se ele estiver na lista de responsáveis
+      task.responsibles = task.responsibles.filter(id => id.toString() !== userId.toString());
+      await task.save();
+  
+      return res.status(200).json(task);
+    } catch (error) {
+      res.status(500).json({ message: `Erro ao remover responsável: ${error.message}` });
+    }
+  };

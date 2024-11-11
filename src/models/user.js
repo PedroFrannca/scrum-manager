@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  tasks: [{
+  myTasks: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Task',  // Refere-se ao modelo de task
   }],

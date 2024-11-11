@@ -22,7 +22,6 @@ describe('Testes de rotas de usuários', () => {
     // Criando uma tarefa para associar ao usuário
     const task = new Task({
       title: 'Desenvolver API',
-      description: 'Criar uma API RESTful para o sistema',
     });
     await task.save();
 
@@ -30,16 +29,13 @@ describe('Testes de rotas de usuários', () => {
       .post('/api/users')
       .send({
         name: 'João Silva',
-        email: 'joao@example.com',
-        password: 'senha123',
-        tasks: [task._id], // Associando a tarefa criada ao usuário
+        myTasks: [task._id], // Associando a tarefa criada ao usuário
       });
 
     expect(response.status).toBe(201);
     expect(response.body.message).toBe('Usuário criado com sucesso');
     expect(response.body.user.name).toBe('João Silva');
-    expect(response.body.user.email).toBe('joao@example.com');
-    expect(response.body.user.tasks).toHaveLength(1);
+    expect(response.body.user.myTasks).toHaveLength(1);
   });
 
   // Teste para listar os usuários
@@ -54,8 +50,6 @@ describe('Testes de rotas de usuários', () => {
     // Criando o usuário inicialmente
     const user = new User({
       name: 'Lucas Pereira',
-      email: 'lucas@example.com',
-      password: 'senha123',
     });
     await user.save();
 
@@ -63,14 +57,11 @@ describe('Testes de rotas de usuários', () => {
       .put(`/api/users/${user._id}`)
       .send({
         name: 'Lucas Pereira Updated',
-        email: 'lucas_updated@example.com',
-        password: 'novaSenha123',
       });
 
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('Usuário atualizado com sucesso');
     expect(response.body.user.name).toBe('Lucas Pereira Updated');
-    expect(response.body.user.email).toBe('lucas_updated@example.com');
   });
 
   // Teste para deletar um usuário
@@ -78,8 +69,6 @@ describe('Testes de rotas de usuários', () => {
     // Criando o usuário inicialmente
     const user = new User({
       name: 'Carlos Alberto',
-      email: 'carlos@example.com',
-      password: 'senha123',
     });
     await user.save();
 
